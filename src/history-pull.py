@@ -23,10 +23,8 @@ def main():
         print('Linux')
         home = str(Path.home())
         if(os.path.exists('{}/.bash_history'.format(home))):
-            subprocess.call('cat {}/.bash_history'.format(home))
             linux_process_history('{}/.bash_history'.format(home))
         elif(os.path.exists('{}/.zsh_history'.format(home))):
-            subprocess.call('cat {}/.zsh_history'.format(home))
             linux_process_history('{}/.zsh_history'.format(home))
         
 
