@@ -17,11 +17,10 @@ def main():
     elif platform.system() == 'Linux':
         print('Linux')
         home = str(Path.home())
-        print(home)
-        if(os.path.exists('~/.bash_history')):
-            subprocess.call('cat ~/.bash_history')
-        elif(os.path.exists('~/.zsh_history')):
-            subprocess.call('cat ~/.zsh_history')
+        if(os.path.exists('{}/.bash_history'.format(home))):
+            subprocess.call('cat {}/.bash_history'.format(home))
+        elif(os.path.exists('{}/.zsh_history'.format(home))):
+            subprocess.call('cat {}/.zsh_history'.format(home))
 
 
 if __name__ == '__main__':
