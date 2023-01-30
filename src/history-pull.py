@@ -1,4 +1,5 @@
 import subprocess
+from pathlib import Path
 import platform
 import os
 
@@ -15,6 +16,8 @@ def main():
         process_history()
     elif platform.system() == 'Linux':
         print('Linux')
+        home = str(Path.home())
+        print(home)
         if(os.path.exists('~/.bash_history')):
             subprocess.call('cat ~/.bash_history')
         elif(os.path.exists('~/.zsh_history')):
