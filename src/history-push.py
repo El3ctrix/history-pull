@@ -11,3 +11,7 @@ def history(platform, rows, type_of_shell='None'):
     for line in lines[-(rows+1):(total_lines-1)]:
         print(line, end='')
     history_file.close()
+    
+def retrieve_history(mode, platform, rows, type_of_shell='None'):
+    #Falta agregar el nombre y direccion para poder obtener el historial
+    pass
