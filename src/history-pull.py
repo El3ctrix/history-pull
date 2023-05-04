@@ -7,7 +7,7 @@ import json
 def add_client(name, ip):
     json_file = open('../clients.json', 'r+')
     json_data = json.load(json_file)
-    item = {
+    new_item = {
         'Name': name.lower(),
         'IP': ip.lower()
     }
@@ -22,7 +22,7 @@ def add_client(name, ip):
             exist = True
             break
     if not exist:
-        json_data.append(item)    
+        json_data.append(new_item)    
         json_data = json.dumps(json_data, indent=4)
         json_file.seek(0)
         json_file.write(json_data)
@@ -49,14 +49,10 @@ def process_pull_petition(name, rows):
             retrieve_history(mode, 'Linux', rows, 'zsh')
     """
     #Formar peticion y pedir el historial
-    json_file = open('clients.json', 'r')
+    json_file = open('../clients.json', 'r')
     json_data = json.load(json_file)
     json_file.close()
     print(json_data)
-    for item in json_data:
-        if name.lower() == item["Name"]:
-            print("The name is already taken.")
-            break
     """
     for client in json_data:
         if client['Name'] == name:
@@ -70,7 +66,7 @@ def process_pull_petition(name, rows):
 
 def main(argv):
     try:
-        opts, args = getopt.getopt(argv, "har:i:n:", ["add","rows=", "ip=", "name="])
+        opts, args = getopt.getopt(argv, "ha:r:i:n:", ["add=","rows=", "ip=", "name="])
     except getopt.GetoptError:
         # Necesito mejorar la explicacion de la explicacion
         print('python3 history-pull.py -r <number of rows>')
@@ -102,15 +98,14 @@ def main(argv):
             elif rows != None:
                 print('ADD ERROR 2')
                 sys.exit(2)
-            elif not name_specified:
+            elif not arg:
                 print('ADD ERROR 3')
-                sys.exit(2)    
-        elif(opt in ('-n', '--name')):
-            if not add_specified:
-                print('NAME ERROR 1')
                 sys.exit(2)
-            elif rows != None:
-                print('NAME ERROR 2')
+            name = arg
+            name_specified = True    
+        elif(opt in ('-n', '--name')):
+            if rows != None:
+                print('NAME ERROR 1')
                 sys.exit(2)
             name = arg
         elif(opt in ('-i', '--ip')):
