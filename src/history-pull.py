@@ -52,17 +52,14 @@ def process_pull_petition(name, rows):
     json_file = open('../clients.json', 'r')
     json_data = json.load(json_file)
     json_file.close()
-    print(json_data)
-    """
+    
     for client in json_data:
         if client['Name'] == name:
             pull_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             petition = {'Name': name, 'Rows': rows}
-            pull_socket.connect('172.23.141.254', 5555)
-            pull_socket.send(json.dumps(petition).encode('utf-8'))
-            print(pull_socket.recv(1024).decode('utf-8'))
+            pull_socket.connect(('192.168.0.20', 42297))
+            pull_socket.sendall(json.dumps(petition).encode('utf-8'))
             pull_socket.close()
-    """
 
 def main(argv):
     try:
