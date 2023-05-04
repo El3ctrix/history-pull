@@ -51,8 +51,12 @@ def process_pull_petition(name, rows):
     #Formar peticion y pedir el historial
     json_file = open('clients.json', 'r')
     json_data = json.load(json_file)
-    print(json_data)
     json_file.close()
+    print(json_data)
+    for item in json_data:
+        if name.lower() == item["Name"]:
+            print("The name is already taken.")
+            break
     """
     for client in json_data:
         if client['Name'] == name:
