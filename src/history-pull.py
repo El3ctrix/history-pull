@@ -33,21 +33,6 @@ def add_client(name, ip):
     
 
 def process_pull_petition(name, rows):
-    """
-    mode = 'Local'
-    if platform.system() == 'Windows':
-        out_file = open('win_history.txt', 'w')
-        subprocess.call('powershell.exe cat (Get-PSReadlineOption).HistorySavePath', stdout=out_file)
-        out_file.close()
-        retrieve_history(mode, 'Windows', rows)
-        os.remove('win_history.txt')
-    elif platform.system() == 'Linux':
-        home = str(Path.home())
-        if(os.path.exists('{}/.bash_history'.format(home))):
-            retrieve_history(mode, 'Linux', rows,'bash')
-        elif(os.path.exists('{}/.zsh_history'.format(home))):
-            retrieve_history(mode, 'Linux', rows, 'zsh')
-    """
     #Formar peticion y pedir el historial
     json_file = open('../clients.json', 'r')
     json_data = json.load(json_file)
@@ -57,7 +42,7 @@ def process_pull_petition(name, rows):
         if client['Name'] == name:
             pull_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             petition = {'Name': name, 'Rows': rows}
-            pull_socket.connect(('192.168.0.20', 42297))
+            pull_socket.connect((client['IP'], 42297))
             pull_socket.sendall(json.dumps(petition).encode('utf-8'))
             pull_socket.close()
 
