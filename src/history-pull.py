@@ -5,7 +5,7 @@ import getopt
 import json
 
 def add_client(name, ip):
-    json_file = open('../clients.json', 'r+')
+    json_file = open('clients.json', 'r+')
     json_data = json.load(json_file)
     new_item = {
         'Name': name.lower(),
@@ -34,16 +34,19 @@ def add_client(name, ip):
 
 def process_pull_petition(name, rows):
     #Formar peticion y pedir el historial
-    json_file = open('../clients.json', 'r')
+    json_file = open('clients.json', 'r')
     json_data = json.load(json_file)
     json_file.close()
     
     for client in json_data:
         if client['Name'] == name:
+            print(client)
             pull_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             petition = {'Name': name, 'Rows': rows}
             pull_socket.connect((client['IP'], 42297))
             pull_socket.sendall(json.dumps(petition).encode('utf-8'))
+            reply_json = json.loads(pull_socket.recv(1024).decode('utf-8'))
+            print(reply_json)
             pull_socket.close()
 
 def main(argv):

@@ -31,20 +31,23 @@ def get_history(rows):
     total_lines = len(lines)
     if(rows > total_lines):
         rows = total_lines
-    for line in lines[-(rows+1):(total_lines-1)]:
-        print(line, end='')
+    reply_json = []
+    for line in lines[-(rows):(total_lines)]:
+        reply_json.append({"Line": line})
     history_file.close()
+    return reply_json
 
 def main():
     puller_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    puller_socket.bind(("localhost", 42297))
+    puller_socket.bind(("192.168.0.21", 42297))
     puller_socket.listen(2)
     while True:
         puller, puller_address = puller_socket.accept()
         data = json.loads(puller.recv(1024).decode('utf-8'))
         if not data:
             break
-        get_history(data['Rows'])
+        reply_json = get_history(data['Rows'])
+        puller.send(json.dumps(reply_json).encode('utf-8'))
 
 if __name__ == '__main__':
     main()
