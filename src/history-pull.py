@@ -44,7 +44,7 @@ def process_pull_petition(name, rows):
             petition = {'Name': name, 'Rows': rows}
             pull_socket.connect((client['IP'], 42297))
             pull_socket.sendall(json.dumps(petition).encode('utf-8'))
-            reply_json = json.loads(pull_socket.recv(1024).decode('utf-8'))
+            reply_json = json.loads(pull_socket.recv(8192).decode('utf-8'))
             pull_socket.close()
             break
     if(reply_json):

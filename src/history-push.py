@@ -30,9 +30,9 @@ def get_history(rows):
     lines = history_file.readlines()
     total_lines = len(lines)
     if(rows == 'all'):
-        rows = total_lines
+        rows = 200
     elif(rows > total_lines):
-        rows = total_lines
+        rows = 200
     reply_json = []
     for line in lines[-(rows):(total_lines)]:
         reply_json.append({"Line": line})
