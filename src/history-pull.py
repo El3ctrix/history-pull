@@ -29,7 +29,7 @@ def add_client(name, ip):
         json_file.close()
     else:
         json_file.close()
-        sys.exit(2)
+    sys.exit(2)
     
 
 def process_pull_petition(name, rows):
@@ -37,17 +37,19 @@ def process_pull_petition(name, rows):
     json_file = open('clients.json', 'r')
     json_data = json.load(json_file)
     json_file.close()
-    
+    reply_json = None
     for client in json_data:
         if client['Name'] == name:
-            print(client)
             pull_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             petition = {'Name': name, 'Rows': rows}
             pull_socket.connect((client['IP'], 42297))
             pull_socket.sendall(json.dumps(petition).encode('utf-8'))
             reply_json = json.loads(pull_socket.recv(1024).decode('utf-8'))
-            print(reply_json)
             pull_socket.close()
+            break
+    if(reply_json):
+        for line in reply_json:
+            print("► {}".format((line['Line'])).rstrip())
 
 def main(argv):
     try:

@@ -29,7 +29,9 @@ def get_history(rows):
         history_file = open('{}/.{}_history'.format(str(Path.home()),'zsh'), 'r')
     lines = history_file.readlines()
     total_lines = len(lines)
-    if(rows > total_lines):
+    if(rows == 'all'):
+        rows = total_lines
+    elif(rows > total_lines):
         rows = total_lines
     reply_json = []
     for line in lines[-(rows):(total_lines)]:
